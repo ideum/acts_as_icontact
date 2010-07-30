@@ -2,7 +2,6 @@ module ActsAsIcontact
   module Rails
     module ClassMethods
       module Mappings
-        
         ICONTACT_DEFAULT_MAPPINGS = {
           :contactId => [:icontact_id, :icontactId],
           :email => [:email, :email_address, :eMail, :emailAddress],
@@ -58,11 +57,21 @@ module ActsAsIcontact
         end
         
         def set_custom_field_mappings
-          @icontact_custom_fields ||= CustomField.list
-          @icontact_custom_fields.each do |field|
-            f = field.to_sym
-            @icontact_mappings[f] = f if rails_field?(f)
+          @@fields_mapped ||= false
+          unless @@fields_mapped
+            @icontact_custom_fields ||= CustomField.list
+            @icontact_custom_fields.each do |field|
+              f = field.to_sym
+              @icontact_mappings[f] = f if rails_field?(f)
+            end
           end
+        rescue => e
+          logger.info "ActsAsIcontact: Failed to load custom field mappings from iContact: #{e}"
+
+          raise e
+          @@fields_mapped = false
+        else
+          @@fields_mapped = true
         end
         
         def rails_field?(field)

@@ -16,6 +16,8 @@ module ActsAsIcontact
           set_default_lists(options.delete(:list), options.delete(:lists))
           logger.info "ActsAsIcontact autosubscribe lists: #{icontact_default_lists.join}" unless icontact_default_lists.empty?
           
+          set_conditional_save_callback(options.delete(:if))
+
           # Set up field mappings
           set_mappings(options)
           logger.info "ActsAsIcontact field mappings: #{icontact_mappings}"

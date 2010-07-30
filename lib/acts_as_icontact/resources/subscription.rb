@@ -52,7 +52,7 @@ module ActsAsIcontact
     
     # status must be one of: normal, pending, unsubscribed
     def validate_on_save(fields)
-      raise ActsAsIcontact::ValidationError, "Status must be one of: #{STATUSES.join(', ')}" unless STATUSES.include?(fields["status"])
+      raise ActsAsIcontact::ValidationError, "Status must be one of: #{STATUSES.join(', ')}" unless STATUSES.include?(fields.assoc("status")[1])
     end
     
     # The list that this subscription is associated with.

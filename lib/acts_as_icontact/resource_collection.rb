@@ -1,5 +1,9 @@
+require 'enumerator'
+
 module ActsAsIcontact
-  class ResourceCollection < Enumerator
+  class ResourceCollection
+    include Enumerable 
+
     attr_reader :total, :retrieved, :offset, :collection_name
     
     def initialize(klass, collection, options={})
@@ -13,18 +17,16 @@ module ActsAsIcontact
       @retrieved = @collection.size
       @total = collection["total"]
       @offset = collection["offset"]
-      
-      enumcode = Proc.new do |yielder|
-        counter = 0
-        while counter < @retrieved
-          yielder.yield resource(@collection[counter])
-          counter += 1
-        end
-      end
-              
-      super(&enumcode)
     end
     
+    def each
+      counter = 0
+      while counter < @retrieved
+        yielder.yield resource(@collection[counter])
+        counter += 1
+      end
+    end
+
     def [](index)
       resource(@collection[index]) if @collection[index]
     end

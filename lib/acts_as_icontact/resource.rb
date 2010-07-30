@@ -320,7 +320,7 @@ module ActsAsIcontact
     
     def check_required_fields(fields, required)
       # Check that all required fields are filled in
-      missing = required.select{|f| fields[f].blank?}
+      missing = required.select{|f| f[1].blank?}
       unless missing.empty?
         missing_fields = missing.join(', ')
         raise ActsAsIcontact::ValidationError, "Missing required fields: #{missing_fields}"

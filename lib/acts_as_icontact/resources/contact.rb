@@ -22,7 +22,15 @@ module ActsAsIcontact
       s = ActsAsIcontact::Subscription.new(:contactId => id, :listId => l.id)
       s.save
     end
-    
+
+    def unsubscribe(list)
+      # Searches on the compound primary key ("listid_contactid").  
+      l = ActsAsIcontact::List.find(list)
+      s = ActsAsIcontact::Subscription.find_by_string("#{l.id}_#{id}")
+      s.status = "unsubscribed"
+      s.save
+    end
+ 
     # Returns a collection of ContactHistory resources for this contact.  The usual iContact search options (limit, offset, search terms, etc.) can be passed.
     def history(options={})
       @history ||= ActsAsIcontact::ContactHistory.scoped_find(self, options)

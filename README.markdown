@@ -220,6 +220,7 @@ Option values and field mappings can be passed to the `acts_as_icontact` declara
 `list` -- _The name or ID number of a list to subscribe new contacts to automatically_  
 `lists` -- _Like `list` but takes an array of names or numbers; new contacts will be subscribed to all of them_  
 `exception_on_failure` -- _If true, throws an ActsAsIcontact::SyncError when synchronization fails.  Defaults to false._  
+`if` -- _A symbol reference to an object method. If the method returns true, then acts_as_contact is utilized for the contact, otherwise it will not be added to iContact._
 
 A note about failure: problems with synchronization are always logged to the standard Rails log.  For most applications, however, updating iContact is a secondary consideration; if a new user is registering, you _probably_ don't want exceptions bubbling up and the whole transaction rolling back just because of a transient iContact server outage.  So exceptions are something you have to deliberately enable.
 

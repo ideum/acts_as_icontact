@@ -16,9 +16,12 @@ end
 if defined?(::ActiveRecord)
   module ::ActiveRecord
     class Base
+      include ActsAsIcontact::Rails::InstanceMethods::Lists
+
       extend ActsAsIcontact::Rails::ClassMethods::Lists
       extend ActsAsIcontact::Rails::ClassMethods::Mappings
       extend ActsAsIcontact::Rails::ClassMethods::Macro
+      extend ActsAsIcontact::Rails::ClassMethods::ConditionalSave
     end
   end
 end

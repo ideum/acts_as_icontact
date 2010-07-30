@@ -18,3 +18,14 @@ end
 
 module ActsAsIcontact
 end
+
+class Hash
+  def rassoc(value)
+    each { |k,v| return [k,v] if v == value }
+    nil
+  end
+
+  def assoc(value)
+    each { |k,v| return [k,v] if k == value }
+  end
+end
